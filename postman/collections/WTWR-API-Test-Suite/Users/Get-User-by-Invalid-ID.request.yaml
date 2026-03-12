@@ -1,0 +1,15 @@
+$kind: http-request
+name: Get User by Invalid ID
+method: GET
+url: '{{baseUrl}}/users/invalidId123'
+order: 3000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is NOT 200 (should be 400 or 404)", function () {
+        pm.expect(pm.response.code).to.not.equal(200);
+      });
+      pm.test("Response body exists", function () {
+        pm.expect(pm.response.text()).to.not.be.empty;
+      });

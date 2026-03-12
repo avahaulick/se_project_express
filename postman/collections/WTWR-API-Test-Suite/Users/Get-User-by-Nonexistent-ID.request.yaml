@@ -1,0 +1,15 @@
+$kind: http-request
+name: Get User by Nonexistent ID
+method: GET
+url: '{{baseUrl}}/users/000000000000000000000000'
+order: 4000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 404", function () {
+        pm.response.to.have.status(404);
+      });
+      pm.test("Response body exists", function () {
+        pm.expect(pm.response.text()).to.not.be.empty;
+      });

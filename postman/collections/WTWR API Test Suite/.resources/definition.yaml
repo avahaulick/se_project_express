@@ -1,0 +1,10 @@
+$kind: collection
+variables:
+  baseUrl: http://localhost:3001
+scripts:
+  - type: http:beforeRequest
+    code: |-
+      if (!pm.collectionVariables.get("baseUrl")) {
+        pm.collectionVariables.set("baseUrl", "http://localhost:3001");
+      }
+    language: text/javascript

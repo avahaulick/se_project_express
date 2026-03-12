@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{baseUrl}}/users"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: ""
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 201", function () {
+        pm.response.to.have.status(201);
+      });
+      pm.test("Response has _id field", function () {
+        const json = pm.response.json();
+        pm.expect(json).to.have.property('_id');
+      });
+      // When JWT auth is added, capture the token here:
+      // const json = pm.response.json();
+      // if (json.token) {
+      //   pm.environment.set("authToken", json.token);
+      // }
+    language: text/javascript
+order: 1000

@@ -1,0 +1,25 @@
+$kind: http-request
+name: Get User by Valid ID
+method: GET
+url: '{{baseUrl}}/users/{{userId}}'
+order: 2000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("Response has name and avatar fields", function () {
+        const json = pm.response.json();
+        pm.expect(json).to.have.property('name');
+        pm.expect(json).to.have.property('avatar');
+      });
+      pm.test("name is a string", function () {
+        const json = pm.response.json();
+        pm.expect(json.name).to.be.a('string');
+      });
+      pm.test("avatar is a string", function () {
+        const json = pm.response.json();
+        pm.expect(json.avatar).to.be.a('string');
+      });

@@ -1,0 +1,32 @@
+$kind: http-request
+name: Log In
+method: POST
+url: '{{baseUrl}}/signin'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "email": "shawn@example.com",
+      "password": "yourpassword"
+    }
+order: 2000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function () {
+        pm.response.to.have.status(200);
+      });
+      pm.test("Response contains token", function () {
+        const json = pm.response.json();
+        pm.expect(json).to.have.property('token');
+      });
+      // Automatically save JWT to {{authToken}} environment variable
+      const json = pm.response.json();
+      if (json.token) {
+        pm.environment.set("authToken", json.token);
+        console.log("authToken saved to environment.");
+      }

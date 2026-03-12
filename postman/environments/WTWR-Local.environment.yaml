@@ -1,0 +1,8 @@
+name: WTWR-Local
+values:
+  - key: baseUrl
+    value: 'http://localhost:3001'
+    enabled: true
+  - key: userId
+    value: ''
+    enabled: true
