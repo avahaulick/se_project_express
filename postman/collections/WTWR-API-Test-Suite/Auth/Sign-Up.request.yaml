@@ -29,3 +29,4 @@ scripts:
       // if (json.token) {
       //   pm.environment.set("authToken", json.token);
       // }
+examples: ./.resources\Sign-Up.resources\examples

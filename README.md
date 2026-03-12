@@ -7,7 +7,7 @@ This project is the backend API for WTWR (What to Wear). It provides routes for 
 ## Functionality
 
 - Create and retrieve users.
-- Create, retrieve, update, and delete clothing items.
+- Create, retrieve, and delete clothing items.
 - Like and unlike clothing items.
 - Validate user avatar and clothing image URLs using the validator package.
 - Return centralized error responses for invalid data, invalid IDs, not found routes/resources, and server errors.
@@ -39,7 +39,6 @@ Clothing item routes:
 
 - GET /items
 - POST /items
-- PUT /items/:id
 - DELETE /items/:id
 - PUT /items/:id/likes
 - DELETE /items/:id/likes

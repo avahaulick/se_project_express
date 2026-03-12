@@ -1,2 +1,6 @@
 $kind: collection
 name: WTWR API Test Suite
+auth:
+  - id: 5772f97d-0475-4f71-bb83-96a485f8da88
+    type: apikey
+    name: API Key

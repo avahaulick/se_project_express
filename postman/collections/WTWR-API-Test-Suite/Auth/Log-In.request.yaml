@@ -30,3 +30,4 @@ scripts:
         pm.environment.set("authToken", json.token);
         console.log("authToken saved to environment.");
       }
+examples: ./.resources\Log-In.resources\examples

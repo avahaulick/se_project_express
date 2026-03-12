@@ -22,4 +22,5 @@ scripts:
       //   pm.environment.set("authToken", json.token);
       // }
     language: text/javascript
+examples: ./.resources/Sign Up.resources/examples
 order: 1000

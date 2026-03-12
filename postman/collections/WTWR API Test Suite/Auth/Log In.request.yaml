@@ -23,4 +23,5 @@ scripts:
         console.log("authToken saved to environment.");
       }
     language: text/javascript
+examples: ./.resources/Log In.resources/examples
 order: 2000
