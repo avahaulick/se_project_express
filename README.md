@@ -38,10 +38,8 @@ User routes:
 
 - POST /signup
 - POST /signin
-- GET /users
 - GET /users/me
 - PATCH /users/me
-- GET /users/:userId
 
 Clothing item routes:
 
@@ -101,6 +99,7 @@ Example placeholders:
 
 - Screenshot: ./assets/project-screenshot.png
 - Demo video: https://drive.google.com/file/d/1EdphtHdlVUQlKWhFSK2WQ1FKrGs9DlNJ/view?usp=drive_link
+
 ## Notes
 
 Before submitting, update sprint.txt with the current sprint number.

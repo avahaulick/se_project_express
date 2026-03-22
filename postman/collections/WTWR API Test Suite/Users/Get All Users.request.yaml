@@ -1,22 +1,23 @@
 $kind: http-request
-url: "{{baseUrl}}/users"
+url: "{{baseUrl}}/users/me"
 method: GET
+headers:
+  Authorization: Bearer {{authToken}}
 scripts:
   - type: afterResponse
     code: |-
       pm.test("Status code is 200", function () {
         pm.response.to.have.status(200);
       });
-      pm.test("Response is an array", function () {
+      pm.test("Response is an object", function () {
         const json = pm.response.json();
-        pm.expect(json).to.be.an('array');
+        pm.expect(json).to.be.an('object');
       });
-      pm.test("Each user has name and avatar fields", function () {
+      pm.test("Response has name, avatar, and email fields", function () {
         const json = pm.response.json();
-        json.forEach(function (user) {
-          pm.expect(user).to.have.property('name');
-          pm.expect(user).to.have.property('avatar');
-        });
+        pm.expect(json).to.have.property('name');
+        pm.expect(json).to.have.property('avatar');
+        pm.expect(json).to.have.property('email');
       });
       pm.test("Response time is under 2000ms", function () {
         pm.expect(pm.response.responseTime).to.be.below(2000);

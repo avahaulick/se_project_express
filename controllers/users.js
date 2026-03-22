@@ -11,20 +11,16 @@ const {
   ERROR_MESSAGES,
 } = require("../utils/errors");
 
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.send(users))
-    .catch(() =>
-      res
-        .status(INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.SERVER_ERROR })
-    );
-};
-
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
 
-  bcrypt
+  if (!email || !password) {
+    return res
+      .status(BAD_REQUEST)
+      .send({ message: ERROR_MESSAGES.INVALID_USER_DATA });
+  }
+
+  return bcrypt
     .hash(password, 10)
     .then((hash) =>
       User.create({
@@ -52,28 +48,6 @@ const createUser = (req, res) => {
         return res
           .status(CONFLICT)
           .send({ message: ERROR_MESSAGES.EMAIL_EXISTS });
-      }
-      return res
-        .status(INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
-    });
-};
-
-const getUser = (req, res) => {
-  const { userId } = req.params;
-  User.findById(userId)
-    .orFail()
-    .then((user) => res.send(user))
-    .catch((err) => {
-      if (err.name === "DocumentNotFoundError") {
-        return res
-          .status(NOT_FOUND)
-          .send({ message: ERROR_MESSAGES.USER_NOT_FOUND });
-      }
-      if (err.name === "CastError") {
-        return res
-          .status(BAD_REQUEST)
-          .send({ message: ERROR_MESSAGES.INVALID_USER_ID });
       }
       return res
         .status(INTERNAL_SERVER_ERROR)
@@ -158,9 +132,7 @@ const login = (req, res) => {
 };
 
 module.exports = {
-  getUsers,
   createUser,
-  getUser,
   getCurrentUser,
   updateProfile,
   login,

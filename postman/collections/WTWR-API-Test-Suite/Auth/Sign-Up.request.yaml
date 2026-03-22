@@ -1,7 +1,7 @@
 $kind: http-request
 name: Sign Up
 method: POST
-url: '{{baseUrl}}/users'
+url: "{{baseUrl}}/signup"
 headers:
   - key: Content-Type
     value: application/json
@@ -10,7 +10,9 @@ body:
   content: |-
     {
       "name": "Shawn Roman",
-      "avatar": "https://example.com/avatar.jpg"
+      "avatar": "https://example.com/avatar.jpg",
+      "email": "shawn.roman@example.com",
+      "password": "secure-password-123"
     }
 order: 1000
 scripts:

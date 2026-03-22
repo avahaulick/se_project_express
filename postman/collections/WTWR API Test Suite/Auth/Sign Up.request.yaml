@@ -1,11 +1,17 @@
 $kind: http-request
-url: "{{baseUrl}}/users"
+url: "{{baseUrl}}/signup"
 method: POST
 headers:
   Content-Type: application/json
 body:
   type: json
-  content: ""
+  content: |-
+    {
+      "name": "Shawn Roman",
+      "avatar": "https://example.com/avatar.jpg",
+      "email": "shawn.roman@example.com",
+      "password": "secure-password-123"
+    }
 scripts:
   - type: afterResponse
     code: |-
