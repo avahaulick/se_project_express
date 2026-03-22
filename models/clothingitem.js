@@ -33,6 +33,7 @@ const clothingItemSchema = new mongoose.Schema({
         ref: "user",
       },
     ],
+    required: true,
     default: [],
   },
   createdAt: {

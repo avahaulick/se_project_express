@@ -1,21 +1,26 @@
-# WTWR Backend API (Project 12)
+# WTWR Backend API (Project 13)
 
 ## Project Description
 
-This project is the backend API for WTWR (What to Wear). It provides routes for users and clothing items, stores data in MongoDB, validates incoming request data, and returns consistent JSON responses with status-based error handling.
+This project is the backend API for WTWR (What to Wear). It provides authentication, protected routes for users and clothing items, stores data in MongoDB, validates incoming request data, and returns consistent JSON responses with status-based error handling.
 
 ## Functionality
 
-- Create and retrieve users.
+- Register and log in users with JWT authorization.
+- Retrieve and update the current authorized user profile.
 - Create, retrieve, and delete clothing items.
 - Like and unlike clothing items.
-- Validate user avatar and clothing image URLs using the validator package.
+- Restrict clothing item deletion to the owner.
+- Validate user avatar, email, and clothing image URLs using the validator package.
 - Return centralized error responses for invalid data, invalid IDs, not found routes/resources, and server errors.
 
 ## Technologies and Techniques
 
 - Node.js and Express for API routing and server logic.
 - MongoDB with Mongoose for schemas, models, and database operations.
+- bcryptjs for password hashing.
+- jsonwebtoken for JWT token creation and verification.
+- cors for cross-origin request support.
 - ESLint (airbnb-base) for code quality and style consistency.
 - Prettier for formatting.
 - Nodemon for local development with hot reload.
@@ -31,9 +36,12 @@ This project is the backend API for WTWR (What to Wear). It provides routes for 
 
 User routes:
 
+- POST /signup
+- POST /signin
 - GET /users
+- GET /users/me
+- PATCH /users/me
 - GET /users/:userId
-- POST /users
 
 Clothing item routes:
 
@@ -74,12 +82,13 @@ Suggested local testing flow:
 
 Sample requests to verify quickly:
 
-- GET /users
-- POST /users
+- POST /signup
+- POST /signin
 - GET /items
-- POST /items
-- PUT /items/:id/likes
-- DELETE /items/:id/likes
+- GET /users/me (with Bearer token)
+- POST /items (with Bearer token)
+- PUT /items/:id/likes (with Bearer token)
+- DELETE /items/:id/likes (with Bearer token)
 
 ## Media
 
@@ -91,8 +100,7 @@ Add your project media here before submission:
 Example placeholders:
 
 - Screenshot: ./assets/project-screenshot.png
-- Demo video: https://your-video-link-here
-
+- Demo video: https://drive.google.com/file/d/1EdphtHdlVUQlKWhFSK2WQ1FKrGs9DlNJ/view?usp=drive_link
 ## Notes
 
 Before submitting, update sprint.txt with the current sprint number.
