@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const { JWT_SECRET } = require("../utils/config");
 const {
+  CREATED,
   BAD_REQUEST,
   UNAUTHORIZED,
   NOT_FOUND,
@@ -31,7 +32,7 @@ const createUser = (req, res) => {
       })
     )
     .then((user) =>
-      res.status(201).send({
+      res.status(CREATED).send({
         _id: user._id,
         name: user.name,
         avatar: user.avatar,
@@ -111,13 +112,19 @@ const updateProfile = (req, res) => {
 const login = (req, res) => {
   const { email, password } = req.body;
 
-  User.findUserByCredentials(email, password)
+  if (!email || !password) {
+    return res
+      .status(BAD_REQUEST)
+      .send({ message: ERROR_MESSAGES.INVALID_USER_DATA });
+  }
+
+  return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
 
-      res.send({ token });
+      return res.send({ token });
     })
     .catch((err) => {
       if (err.message === ERROR_MESSAGES.INVALID_CREDENTIALS) {

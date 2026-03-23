@@ -1,5 +1,6 @@
 const ClothingItem = require("../models/clothingitem");
 const {
+  CREATED,
   BAD_REQUEST,
   FORBIDDEN,
   NOT_FOUND,
@@ -22,7 +23,7 @@ const createItem = (req, res) => {
   const owner = req.user._id;
 
   ClothingItem.create({ name, weather, imageUrl, owner })
-    .then((item) => res.status(201).send(item))
+    .then((item) => res.status(CREATED).send(item))
     .catch((err) => {
       if (err.name === "ValidationError") {
         return res
