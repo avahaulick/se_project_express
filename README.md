@@ -98,8 +98,7 @@ Add your project media here before submission:
 Example placeholders:
 
 - Screenshot: ./assets/project-screenshot.png
-- Demo video: https://drive.google.com/file/d/1EdphtHdlVUQlKWhFSK2WQ1FKrGs9DlNJ/view?usp=drive_link
-
+- Demo video: https://www.loom.com/share/97ca64d2d1e84ee7bb6cb3efb2d76738
 ## Notes
 
 Before submitting, update sprint.txt with the current sprint number.
