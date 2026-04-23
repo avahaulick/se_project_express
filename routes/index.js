@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { ERROR_MESSAGES } = require("../utils/errors");
-const { NotFoundError } = require("../utils/custom-errors");
+const { NotFoundError } = require("../errors");
 const { createUser, login } = require("../controllers/users");
 const { getItems } = require("../controllers/clothingItems");
 const auth = require("../middlewares/auth");

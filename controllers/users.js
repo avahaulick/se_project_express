@@ -8,7 +8,7 @@ const {
   UnauthorizedError,
   NotFoundError,
   ConflictError,
-} = require("../utils/custom-errors");
+} = require("../errors");
 
 const createUser = (req, res, next) => {
   const { name, avatar, email, password } = req.body;
