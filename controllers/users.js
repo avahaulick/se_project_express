@@ -2,23 +2,19 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const { JWT_SECRET } = require("../utils/config");
+const { CREATED, ERROR_MESSAGES } = require("../utils/errors");
 const {
-  CREATED,
-  BAD_REQUEST,
-  UNAUTHORIZED,
-  NOT_FOUND,
-  CONFLICT,
-  INTERNAL_SERVER_ERROR,
-  ERROR_MESSAGES,
-} = require("../utils/errors");
+  BadRequestError,
+  UnauthorizedError,
+  NotFoundError,
+  ConflictError,
+} = require("../utils/custom-errors");
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   const { name, avatar, email, password } = req.body;
 
   if (!email || !password) {
-    return res
-      .status(BAD_REQUEST)
-      .send({ message: ERROR_MESSAGES.INVALID_USER_DATA });
+    return next(new BadRequestError(ERROR_MESSAGES.INVALID_USER_DATA));
   }
 
   return bcrypt
@@ -41,43 +37,31 @@ const createUser = (req, res) => {
     )
     .catch((err) => {
       if (err.name === "ValidationError") {
-        return res
-          .status(BAD_REQUEST)
-          .send({ message: ERROR_MESSAGES.INVALID_USER_DATA });
+        return next(new BadRequestError(ERROR_MESSAGES.INVALID_USER_DATA));
       }
       if (err.code === 11000) {
-        return res
-          .status(CONFLICT)
-          .send({ message: ERROR_MESSAGES.EMAIL_EXISTS });
+        return next(new ConflictError(ERROR_MESSAGES.EMAIL_EXISTS));
       }
-      return res
-        .status(INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
+      return next(err);
     });
 };
 
-const getCurrentUser = (req, res) => {
+const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail()
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
-        return res
-          .status(NOT_FOUND)
-          .send({ message: ERROR_MESSAGES.USER_NOT_FOUND });
+        return next(new NotFoundError(ERROR_MESSAGES.USER_NOT_FOUND));
       }
       if (err.name === "CastError") {
-        return res
-          .status(BAD_REQUEST)
-          .send({ message: ERROR_MESSAGES.INVALID_USER_ID });
+        return next(new BadRequestError(ERROR_MESSAGES.INVALID_USER_ID));
       }
-      return res
-        .status(INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
+      return next(err);
     });
 };
 
-const updateProfile = (req, res) => {
+const updateProfile = (req, res, next) => {
   const { name, avatar } = req.body;
 
   User.findByIdAndUpdate(
@@ -89,33 +73,23 @@ const updateProfile = (req, res) => {
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        return res
-          .status(BAD_REQUEST)
-          .send({ message: ERROR_MESSAGES.INVALID_USER_DATA });
+        return next(new BadRequestError(ERROR_MESSAGES.INVALID_USER_DATA));
       }
       if (err.name === "DocumentNotFoundError") {
-        return res
-          .status(NOT_FOUND)
-          .send({ message: ERROR_MESSAGES.USER_NOT_FOUND });
+        return next(new NotFoundError(ERROR_MESSAGES.USER_NOT_FOUND));
       }
       if (err.name === "CastError") {
-        return res
-          .status(BAD_REQUEST)
-          .send({ message: ERROR_MESSAGES.INVALID_USER_ID });
+        return next(new BadRequestError(ERROR_MESSAGES.INVALID_USER_ID));
       }
-      return res
-        .status(INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
+      return next(err);
     });
 };
 
-const login = (req, res) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res
-      .status(BAD_REQUEST)
-      .send({ message: ERROR_MESSAGES.INVALID_USER_DATA });
+    return next(new BadRequestError(ERROR_MESSAGES.INVALID_USER_DATA));
   }
 
   return User.findUserByCredentials(email, password)
@@ -128,13 +102,9 @@ const login = (req, res) => {
     })
     .catch((err) => {
       if (err.message === ERROR_MESSAGES.INVALID_CREDENTIALS) {
-        return res
-          .status(UNAUTHORIZED)
-          .send({ message: ERROR_MESSAGES.INVALID_CREDENTIALS });
+        return next(new UnauthorizedError(ERROR_MESSAGES.INVALID_CREDENTIALS));
       }
-      return res
-        .status(INTERNAL_SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
+      return next(err);
     });
 };
 

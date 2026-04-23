@@ -22,6 +22,4 @@ app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`✅ WTWR server running on port ${PORT} - Updated version`);
-});
+app.listen(PORT);
