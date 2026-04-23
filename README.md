@@ -100,6 +100,13 @@ Example placeholders:
 - Screenshot: ./assets/project-screenshot.png
 - Demo video: https://www.loom.com/share/5eaacbd1ed924f6ebb084f6b785d059d
 
+## Review Access Information
+
+- Deployed project domain: https://twighlightparadox.mooo.com
+- Backend API domain: https://api.twighlightparadox.mooo.com
+- Frontend GitHub repository: https://github.com/avahaulick/se_project_react
+- Project pitch video: https://www.loom.com/share/5eaacbd1ed924f6ebb084f6b785d059d
+
 ## Notes
 
 Before submitting, update sprint.txt with the current sprint number.
